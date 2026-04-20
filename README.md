@@ -1,59 +1,48 @@
-# LearnAngular
+🚀 Smart POS: Minimalist, Offline-First Retail Engine
+A streamlined Point of Sale (POS) solution tailored for mid-level business owners who need speed, reliability, and mobility. This application bridges the gap between a lightweight PWA and a heavy enterprise ERP, focusing on a "less is more" user experience.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.0.
+✨ Key Features
+📱 Mobile-First PWA: Optimized for smartphones and tablets. Installable as an app with full offline functionality using Angular Service Workers and IndexedDB.
 
-## Development server
+⚡ Intelligent Input:
 
-To start a local development server, run:
+Predictive Population: Manual product entries are cached. Next time you type, fields auto-populate based on previous history to save time.
 
-```bash
-ng serve
-```
+QR Code Ready: Instant checkout via QR scanning for pre-registered products.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+📄 Dynamic Receipts:
 
-## Code scaffolding
+Edit line items, quantities, and prices on the fly during the checkout process.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+WhatsApp Integration: Upon submission, the app triggers a WhatsApp redirect to send the digital receipt link directly to the customer.
 
-```bash
-ng generate component component-name
-```
+📉 Simplified Reporting: High-level sales summaries and SKU-based filtering without the clutter of traditional accounting software.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+🇵🇰 FBR Hybrid Mode:
 
-```bash
-ng generate --help
-```
+Online Mode: Real-time synchronization with FBR fiscal endpoints.
 
-## Building
+Force Offline: A dedicated setting to bypass FBR integration during internet outages, allowing the business to keep moving. Data syncs automatically once reconnected.
 
-To build the project run:
+🛠 Technical Stack
+Frontend: Angular (SPA/PWA)
 
-```bash
-ng build
-```
+State & Storage: RxJS, IndexedDB (Dexie.js) for offline persistence.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Backend: .NET 8 Web API
 
-## Running unit tests
+Database: Entity Framework Core (SQL Server/PostgreSQL)
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Compliance: FBR Fiscal API Integration
 
-```bash
-ng test
-```
+🔄 Offline-Sync Logic
+The app utilizes a "Local-First" approach. Every sale is first committed to the device's internal database. A background synchronization service monitors connectivity and "pushes" pending receipts to the .NET backend, which handles the heavy lifting of FBR reporting and permanent cloud storage.
 
-## Running end-to-end tests
+📦 Installation & Setup
+Prerequisites: Node.js (v18+), .NET 8 SDK.
 
-For end-to-end (e2e) testing, run:
+Frontend: cd client && npm install && ng serve
 
-```bash
-ng e2e
-```
+Backend: cd server && dotnet run
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+PWA: Build with ng build and serve over HTTPS to enable Service Worker features.
