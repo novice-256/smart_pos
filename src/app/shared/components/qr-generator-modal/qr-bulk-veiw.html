@@ -1,0 +1,36 @@
+ @if(qrData()) {
+          <mat-divider class="divider"></mat-divider>
+          <div class="qr-result">
+            <h3>QR Code Generated Successfully</h3>
+            <div class="qr-display-wrapper">
+              <div class="qr-code-container">
+                <qrcode [qrdata]="qrData()" [width]="320" [errorCorrectionLevel]="'H'"></qrcode>
+              </div>
+              <div class="qr-metadata">
+                <div class="metadata-item">
+                  <span class="label">Product:</span>
+                  <span class="value">{{ qrForm.get('productName')?.value }}</span>
+                </div>
+                <div class="metadata-item">
+                  <span class="label">SKU:</span>
+                  <span class="value">{{ qrForm.get('sku')?.value }}</span>
+                </div>
+                <div class="metadata-item">
+                  <span class="label">Price:</span>
+                  <span class="value">{{ qrForm.get('price')?.value }}</span>
+                </div>
+                @if(qrForm.get('tax')?.value) {
+                  <div class="metadata-item">
+                    <span class="label">Tax:</span>
+                    <span class="value">{{ qrForm.get('tax')?.value }}%</span>
+                  </div>
+                }
+              </div>
+            </div>
+            <p class="qr-data-text">QR Data: {{ qrData() }}</p>
+            <button type="button" mat-raised-button color="accent" (click)="printQR()" class="print-btn">
+              <mat-icon>print</mat-icon>
+              Print QR Code
+            </button>
+          </div>
+        }

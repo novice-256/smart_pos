@@ -1,0 +1,8 @@
+
+<main class="content-area">
+  <router-outlet></router-outlet>
+</main>
+@if (authService.isLoggedIn) {
+
+    <app-bottom-nav-bar></app-bottom-nav-bar>
+}

@@ -1,0 +1,4 @@
+<div class="alert-box" [ngClass]="type">
+  <mat-icon>{{ type === 'error' ? 'report' : 'warning' }}</mat-icon>
+  <span>{{ messageKey | translate }}</span>
+</div>

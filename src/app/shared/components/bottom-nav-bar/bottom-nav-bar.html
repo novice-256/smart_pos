@@ -1,0 +1,14 @@
+<nav class="nav-bar">
+  <div class="nav-item" [class.active]="activeTab === 'home'" (click)="activeTab = 'home'">
+    <mat-icon>home</mat-icon>
+    <span class="label">{{ 'NAV.HOME' | translate }}</span>
+  </div>
+  <div class="nav-item" [class.active]="activeTab === 'history'" (click)="activeTab = 'history'">
+    <mat-icon>history</mat-icon>
+    <span class="label">{{ 'NAV.HISTORY' | translate }}</span>
+  </div>
+  <div class="nav-item" [class.active]="activeTab === 'reports'" (click)="activeTab = 'reports'">
+    <mat-icon>bar_chart</mat-icon>
+    <span class="label">{{ 'NAV.REPORTS' | translate }}</span>
+  </div>
+</nav>

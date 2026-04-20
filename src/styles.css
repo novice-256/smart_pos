@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Fullscreen Dialog Styles */
+.fullscreen-dialog {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.fullscreen-dialog .mat-mdc-dialog-container {
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+.mat-mdc-dialog-container {
+  background: transparent;
+}
+
+.cdk-overlay-pane {
+  z-index: 1000 !important;
+}
+
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0) !important;
+  display: none;
+}

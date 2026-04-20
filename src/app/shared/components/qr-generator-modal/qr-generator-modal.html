@@ -1,0 +1,206 @@
+  <div class="qr-modal-wrapper">
+      <div class="modal-header">
+        <h2>Generate QR Code</h2>
+        <button type="button" mat-icon-button (click)="onCancel()" class="close-btn">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <div class="modal-content">
+        <form [formGroup]="qrForm" (ngSubmit)="onGenerate()" class="form-section">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Product Name *</mat-label>
+            <input matInput formControlName="productName" placeholder="e.g., Black Dragon Mouse">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>SKU *</mat-label>
+            <input matInput formControlName="sku_code" placeholder="e.g., BLKD-MOUSE-01">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Price *</mat-label>
+            <input matInput type="number" formControlName="price" placeholder="e.g., 500">
+          </mat-form-field>
+
+          <div class="optional-section">
+            <mat-form-field appearance="outline" class="flex-1">
+              <mat-label>Tax % (Optional)</mat-label>
+              <input matInput type="number" formControlName="tax" placeholder="e.g., 15">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="flex-1">
+              <mat-label>Discount (Optional)</mat-label>
+              <input matInput type="number" formControlName="discount" placeholder="e.g., 10">
+            </mat-form-field>
+          </div>
+       <div class="upload-section">
+  <input 
+    type="file" 
+    #fileInput 
+    style="display: none" 
+    (change)="onFileUpload($event)" 
+    >
+    <!-- accept=".xlsx, .xls, .csv" -->
+
+  <mat-form-field appearance="outline" class="flex-1" (click)="fileInput.click()">
+    <mat-label>Import Excel</mat-label>
+    <input matInput [value]="fileName()" placeholder="Click to select file" readonly>
+    <mat-icon matSuffix>upload_file</mat-icon>
+    @if(fileSize()){
+    
+
+        <mat-hint>File size: {{fileSize()}}KB
+
+        <small 
+          style="text-decoration: underline; color: #00458f; cursor: pointer;" 
+          (click)="$event.stopPropagation(); removeAttach()">
+          Remove
+        </small>        </mat-hint>
+        
+     
+    }@else {
+
+      <mat-hint>Max file size: 5MB</mat-hint>
+      
+     
+
+    }
+  </mat-form-field>
+  <button type="button" mat-stroked-button (click)="onSampleDownload()" class="action-btn">
+    <mat-icon matSuffix>download_file</mat-icon>
+
+              Sample
+            </button>
+</div>
+          <div class="form-actions">
+            @if(fileName()){
+            <button (click)="printAllQRs()" mat-raised-button color="primary" [disabled]="!fileName()" class="action-btn">
+                <mat-icon>qr_code</mat-icon>
+                Print Bulk QR
+              </button>
+
+            }
+            @if(!fileName()){
+
+              <button type="submit" mat-raised-button color="primary" [disabled]="qrForm.invalid" class="action-btn">
+                <mat-icon>qr_code</mat-icon>
+                Generate QR Code
+              </button>
+            }
+            <button type="button" mat-stroked-button (click)="onCancel()" class="action-btn">
+              Cancel
+            </button>
+          </div>
+        </form>
+        
+
+        @if(qrData()) {
+          <mat-divider class="divider"></mat-divider>
+          <div class="qr-result">
+            <h3>QR Code Generated Successfully</h3>
+            <div class="qr-display-wrapper">
+              <div class="qr-code-container">
+                <qrcode [qrdata]="qrData()" [width]="320" [errorCorrectionLevel]="'H'"  [elementType]="'svg'" ></qrcode>
+              </div>
+              <div class="qr-metadata">
+                <div class="metadata-item">
+                  <span class="label">Product:</span>
+                  <span class="value">{{ qrForm.get('productName')?.value }}</span>
+                </div>
+                <div class="metadata-item">
+                  <span class="label">SKU:</span>
+                  <span class="value">{{ qrForm.get('sku')?.value }}</span>
+                </div>
+                <div class="metadata-item">
+                  <span class="label">Price:</span>
+                  <span class="value">{{ qrForm.get('price')?.value }}</span>
+                </div>
+                @if(qrForm.get('tax')?.value) {
+                  <div class="metadata-item">
+                    <span class="label">Tax:</span>
+                    <span class="value">{{ qrForm.get('tax')?.value }}%</span>
+                  </div>
+                }
+              </div>
+            </div>
+            <p class="qr-data-text">QR Data: {{ qrData() }}</p>
+            <button type="button" mat-raised-button color="accent" (click)="printQR()" class="print-btn">
+              <mat-icon>print</mat-icon>
+              Print QR Code
+            </button>
+          </div>
+        }
+   <div class="table-responsive-container mat-elevation-z1">
+  <table class="qr-bulk-table">
+    <thead>
+      <tr>
+        <th>QR Code</th>
+        <th>Product Details</th>
+        <th>SKU</th>
+        <th class="text-right">Price</th>
+        <th class="text-center">Tax/Disc</th>
+        <th class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of qrBulkData(); track $index) {
+      <tr>
+        <td class="qr-column">
+          <div class="table-qr-wrapper">
+            
+            <qrcode 
+              [qrdata]="generateQRString(item)" 
+              [width]="80" 
+             [elementType]="'svg'" 
+              [errorCorrectionLevel]="'M'">
+            </qrcode>
+          </div>
+        </td>
+
+        <td>
+          <div class="product-info">
+            <span class="p-name">{{ item['name '] || item.name }}</span>
+            <span class="p-category">General Merchandise</span>
+          </div>
+        </td>
+
+        <td>
+          <code class="sku-text">{{ item.sku }}</code>
+        </td>
+
+        <td class="text-right">
+          <div class="price-display">
+            <span class="currency">PKR</span>
+            <span class="amount">{{ item.price | number:'1.2-2' }}</span>
+          </div>
+        </td>
+
+        <td class="text-center">
+          <div class="badge-stack">
+            <span class="badge tax">T: {{ item.tax }}%</span>
+            @if(item.discount > 0) {
+              <span class="badge disc">-{{ item.discount }}%</span>
+            }
+          </div>
+        </td>
+
+        <td class="text-center">
+          <button mat-icon-button color="primary" matTooltip="Download this QR">
+            <mat-icon>download</mat-icon>
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<!-- <div class="table-footer-actions no-print">
+    <button mat-flat-button color="primary" (click)="printAllQRs()">
+        <mat-icon>print</mat-icon> Print All QR Labels
+    </button>
+</div> -->
+
+      </div>
+    </div>

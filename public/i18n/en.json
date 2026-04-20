@@ -1,0 +1,50 @@
+{
+  "COMMON": {
+    "APP_NAME": "Fast Invoice",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "BACK": "Back",
+    "LOADING": "Loading..."
+  },
+  "STATUS": {
+    "ONLINE": "Online",
+    "OFFLINE": "Offline",
+    "LAST_SYNC": "Last Sync",
+    "PENDING_SYNC": "{{count}} invoices pending sync"
+  },
+  "DASHBOARD": {
+    "WELCOME": "Welcome",
+    "TOTAL_BALANCE": "Total Balance",
+    "RECENT_INVOICES": "Recent Invoices"
+  },
+  "ACTIONS": {
+    "CREATE_BILL": "Create New Bill",
+    "BILL_LIST": "Bill List",
+    "GENERATE_QR": "Generate QR",
+    "SYNC_DATA": "Sync Data",
+    "GUIDE": "Guide",
+    "PROFILE": "Profile",
+    "SETTINGS": "Settings",
+    "SAVE_DATA": "Backup Data",
+    "GET_HELP": "Get Help?",
+    "SCAN": "Scan"
+
+  },
+  "INVOICE": {
+    "ID": "Invoice #",
+    "DATE": "Date",
+    "CLIENT": "Client",
+    "AMOUNT": "Amount",
+    "STATUS": "Status"
+  },
+  "NAV": {
+    "HOME": "Dashboard",
+    "HISTORY": "History",
+    "REPORTS": "Reports",
+    "SETTINGS": "Settings"
+  },
+ "TITLE": {
+     "MANAGE_ORDER": "Create and Manage orders",
+    "INVOICE": "Invoice"
+  }
+}

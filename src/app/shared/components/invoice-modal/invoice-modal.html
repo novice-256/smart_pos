@@ -1,0 +1,355 @@
+<div class="pos-container">
+ <button class="tab-close-btn" (click)="closeSlip()">
+    <mat-icon>close</mat-icon>
+
+  </button>
+  <mat-tab-group class="mobile-tabs" animationDuration="300">
+    <mat-tab label="Input">
+      <div class="tab-content">
+        <ng-container *ngTemplateOutlet="formTemplate"></ng-container>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Receipt">
+      <div class="tab-content receipt-content">
+        <ng-container *ngTemplateOutlet="receiptTemplate"></ng-container>
+      </div>
+    </mat-tab>
+    
+  </mat-tab-group>
+  
+  
+  <div class="desktop-layout">
+    <div class="entry-section">
+      <ng-container *ngTemplateOutlet="formTemplate"></ng-container>
+    </div>
+    <div class="receipt-section">
+      <ng-container *ngTemplateOutlet="receiptTemplate"></ng-container>
+    </div>
+       
+  </div>
+  
+</div>
+
+<ng-template #formTemplate>
+  <form [formGroup]="form" class="invoice-form">
+    
+    <!-- Enhanced Header Section -->
+    <div class="pos-header-section">
+      <div class="header-content">
+        <div class="branding">
+          <div class="logo-icon-container">
+            <mat-icon>shopping_cart</mat-icon>
+          </div>
+          <div class="header-text">
+            <h2>{{"TITLE.INVOICE" | translate}}</h2> 
+            <p>{{"TITLE.MANAGE_ORDER" | translate}}</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="icon-action qr-action" (click)="toggleScanner()" [class.active]="showScanner()">
+            <mat-icon>qr_code_2</mat-icon>
+            <span class="scanner-label">{{ "ACTIONS.SCAN" |translate }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scanner Section (Hidden by default) -->
+    @if(showScanner()) {
+     <div class="scanner-container" *ngIf="showScanner">
+  <div class="scanner-card">
+    
+    <div class="scanner-header">
+      <div class="header-main">
+        <mat-icon>qr_code_scanner</mat-icon>
+        <span>Barcode Scanner</span>
+      </div>
+      <button type="button" (click)="toggleScanner()" class="close-btn">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="scanner-viewport">
+      <div class="scan-feedback" [class.show]="scanStatusMessage()">
+        <mat-icon>check_circle</mat-icon>
+        <span>{{ scanStatusMessage() }}</span>
+      </div>
+
+      <zxing-scanner
+        (scanSuccess)="onScanSuccess($event)"
+        (scanError)="onScanError($event)"
+        (camerasFound)="onCamerasFound($event)"
+        (camerasNotFound)="onCamerasNotFound()">
+      </zxing-scanner>
+      
+      <div class="scanner-laser"></div>
+    </div>
+
+    <div class="scanner-footer">
+      <mat-checkbox formControlName="QuickBilling" >
+        Quick Billing Mode
+      </mat-checkbox>
+      <small class="helper-text">Align barcode within the frame to scan</small>
+    </div>
+    
+  </div>
+</div>
+      }
+        @if(items.length === 0) {
+
+
+    <!-- Customer Section -->
+    <div class="ui-card customer-fields">
+      <div class="ui-card-header">
+        <mat-icon>person</mat-icon>
+        <span>Customer</span>
+        <span >*</span>
+      </div>
+      <div class="ui-card-body">
+        <mat-form-field appearance="fill" class="full-width">
+          @if (form.controls.Name.hasError("required")) {
+
+            <mat-error >Name is required</mat-error>
+          }
+          <input matInput formControlName="Name" placeholder="Customer Name" />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          @if (form.controls.Contact.hasError("pattern")) {
+
+            <mat-error >Valid format for number 923001234567</mat-error>
+          }
+          <input matInput formControlName="Contact" placeholder="923001234567" (input)="getCustomerSuggestions(form.value.Contact)" />
+        </mat-form-field>
+         <mat-card class="suggestion-card" *ngIf="customerSuggestions().length > 0">
+
+            <mat-card-content>
+              <mat-selection-list [multiple]="false">
+                @for (item of customerSuggestions(); track item.contact) {
+                  <mat-list-option (click)="selectCustomer(item)">
+                    <div class="sku-row">
+                      <span class="sku-code"><strong>{{ item.contact }}</strong></span>
+                    </div>
+                    <div matListItemLine class="sku-details">
+                      Name: {{ item.name }}
+                    </div>
+                  </mat-list-option>
+                }
+              </mat-selection-list>
+            </mat-card-content>
+          </mat-card>
+      </div>
+    </div>
+      }
+
+    <!-- Add Item Section -->
+    <div class="ui-card add-item-card" [formGroup]="currentItem">
+      <div class="ui-card-header">
+        <mat-icon>shopping_bag</mat-icon>
+        <span>Add Item</span>
+      </div>
+      <div class="ui-card-body add-item-body">
+        <mat-form-field appearance="fill" class="full-width">
+          <input matInput formControlName="Sku" placeholder="Scan or Enter SKU/Barcode" (input)="getSkuSuggestions(currentItem.value.Sku)">
+        </mat-form-field>
+       <mat-card class="suggestion-card" *ngIf="skuSuggestions().length > 0">
+
+            <mat-card-content>
+              <mat-selection-list [multiple]="false">
+                @for (item of skuSuggestions(); track item.sku_code) {
+                  <mat-list-option (click)="selectSku(item)">
+                    <div class="sku-row">
+                      <span class="sku-code"><strong>{{ item.sku_code }}</strong></span>
+                      <span class="sku-price">{{ item.price | currency }}</span>
+                    </div>
+                    <div matListItemLine class="sku-details">
+                      Tax: {{ item.tax }}% | Discount: {{ item.discount }}%
+                    </div>
+                  </mat-list-option>
+                }
+              </mat-selection-list>
+            </mat-card-content>
+          </mat-card>
+        <div class="row-layout">
+          <div class="input-stack">
+            <label>Price</label>
+            <mat-form-field appearance="fill" class="dense-field">
+              <input matInput type="number" formControlName="Price" placeholder="0.00">
+            </mat-form-field>
+          </div>
+
+          <div class="input-stack">
+            <label>Qty</label>
+            <mat-form-field appearance="fill" class="dense-field">
+              <input matInput type="number" formControlName="Units" placeholder="1">
+            </mat-form-field>
+          </div>
+
+        </div>
+        <button type="button" class="btn-add-yellow" (click)="addItem()">
+          <mat-icon>add</mat-icon>
+          <span>Add</span>
+        </button>
+
+        <div class="expand-toggle" (click)="showAdvancedFields.set(!showAdvancedFields())">
+          <span>Tax & Discounts</span>
+          <mat-icon class="toggle-icon">{{ showAdvancedFields() ? 'expand_less' : 'chevron_right' }}</mat-icon>
+        </div>
+
+        @if(showAdvancedFields()) {
+          <div class="advanced-section">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Tax %</mat-label>
+              <input matInput type="number" formControlName="Tax"/>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Discount %</mat-label>
+              <input matInput type="number" formControlName="Discount"/>
+            </mat-form-field>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Order Summary Section -->
+    <div class="ui-card order-summary-card">
+      <div class="ui-card-header">
+        <mat-icon>receipt</mat-icon>
+        <span>Order Summary</span>
+      </div>
+      <div class="ui-card-body order-summary-body">
+        @if(items.length === 0) {
+          <div class="empty-state">
+            <mat-icon>inbox</mat-icon>
+            <p>No items added yet</p>
+          </div>
+        } @else {
+          <table class="summary-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th class="text-right">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of items.controls; let i = $index; track $index) {
+              <tr>
+                <td>{{ item.get('Sku')?.value }}</td>
+                <td class="text-center">{{ item.get('Units')?.value }}</td>
+                <td class="text-right">{{ item.get('Total')?.value | number:'1.2-2' }}</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        }
+        <div class="summary-total">
+          <strong>Total: ${{ form.get('Total')?.value || '0.00' }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-footer">
+       <button type="submit" class="btn-generate-bill" (click)="onGenerateBill()">Finish & Generate Bill</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #receiptTemplate>
+  @if (items.length !== 0) {
+  <div class="action-icons remove-on-print">
+    <button type="button" class="icon-btn print-blue" (click)="printPDF()" mat-icon-button 
+        matTooltip="Print this receipt" 
+        matTooltipPosition="above">
+      <mat-icon >print</mat-icon>
+    </button>
+    <button type="button" class="icon-btn close-red" (click)="closeSlip()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="receipt-container">
+    <mat-card class="receipt-paper">
+      <div class="receipt-header">
+        <h2 class="store-name">RETAIL STORE</h2>
+        <p class="store-address">123 Business Avenue, Block 5<br>Karachi, Pakistan</p>
+        <div class="fbr-badge">FBR INV: 9928-{{randomId}}</div>
+      </div>
+
+      <div class="receipt-divider-dash"></div>
+
+      <div class="info-section">
+        <div class="info-row">
+          <span class="label">Customer:</span>
+          <span class="value">{{ form.get('Name')?.value || 'Walk-in' }}</span>
+        </div>
+        <div class="info-row" *ngIf="form.get('Contact')?.value">
+          <span class="label">Contact:</span>
+          <span class="value">{{ form.get('Contact')?.value }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Date:</span>
+          <span class="value">{{ today | date:'dd MMM yyyy HH:mm' }}</span>
+        </div>
+      </div>
+
+      <div class="receipt-divider-dash"></div>
+
+      <table class="receipt-table">
+        <thead>
+          <tr>
+            <th>Item Description</th>
+            <th class="text-center">Qty</th>
+            <th class="text-right">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of items.controls; let i = $index; track $index) {
+          <tr>
+            <td class="item-name">
+              {{item.get('Sku')?.value}}
+              <div class="remove-on-print">
+                <button mat-button color="warn" class="mini-delete" (click)="removeItem(i)">Remove</button>
+              </div>
+            </td>
+            <td class="text-center">{{item.get('Units')?.value}}</td>
+            <td class="text-right">{{item.get('Total')?.value | number:'1.2-2'}}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+
+      <div class="receipt-divider-solid"></div>
+
+      <div class="total-section">
+        <div class="total-row">
+          <span>Subtotal</span>
+          <span>PKR {{ form.get('Total')?.value | number:'1.2-2' }}</span>
+        </div>
+        <div class="total-row grand-total">
+          <span>GRAND TOTAL</span>
+          <span>PKR {{ form.get('Total')?.value | number:'1.2-2' }}</span>
+        </div>
+      </div>
+
+      <div class="receipt-divider-dash"></div>
+
+      <div class="receipt-footer">
+        <p>Thank you for shopping with us!</p>
+        <div class="barcode-wrapper">
+          <div class="barcode-mock">|| ||| | || |||| | || ||| | ||</div>
+          <small>TRX-ID: {{randomId}}</small>
+        </div>
+      </div>
+
+      <div class="clear-action remove-on-print">
+         <button mat-stroked-button color="warn" (click)="resetAllItems()">
+          <mat-icon>delete_sweep</mat-icon> Reset Transaction
+        </button>
+      </div>
+    </mat-card>
+  </div>
+  }@else {
+    
+  }
+</ng-template>

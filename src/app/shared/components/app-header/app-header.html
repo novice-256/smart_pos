@@ -1,0 +1,35 @@
+<mat-toolbar color="primary" class="header-toolbar">
+  <button mat-icon-button>
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span class="logo-text">{{ 'COMMON.APP_NAME' | translate }}</span>
+
+  <span class="spacer"></span>
+
+  <button mat-button (click)="switchLang()" class="lang-btn">
+    {{ (langService.lang$ | async) === 'ur' ? 'English' : 'اردو' }}
+  </button>
+
+<button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="User menu" class="user-icon">
+  <mat-icon>account_circle</mat-icon>
+  <small>{{user.name}}</small>
+</button>
+
+<mat-menu #userMenu="matMenu" xPosition="before">
+  <!-- (click)="openProfile()" -->
+  <button mat-menu-item 
+  >
+    <mat-icon>person</mat-icon>
+    <span>Profile</span>
+  </button>
+  
+  <mat-divider></mat-divider>
+
+  <button mat-menu-item (click)="onLogout()">
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Logout</span>
+  </button>
+</mat-menu>
+  
+</mat-toolbar>

@@ -1,0 +1,6 @@
+.status-container { display: flex; padding: 4px 12px; color: white; font-size: 12px; align-items: center; }
+    .online-bg { background-color: #2e7d32; }
+    .offline-bg { background-color: #c62828; }
+    .status-item { display: flex; align-items: center; gap: 5px; }
+    .spacer { flex: 1 1 auto; }
+    .sync-icon { font-size: 14px; width: 14px; height: 14px; }

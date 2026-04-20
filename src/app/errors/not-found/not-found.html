@@ -1,0 +1,26 @@
+<div class="error-wrapper">
+  <mat-card class="unauthorized-card">
+   <mat-card-header>
+  <div mat-card-avatar>
+    <mat-icon color="accent">search_off</mat-icon> </div>
+  <mat-card-title>404 - Page Not Found</mat-card-title>
+  <mat-card-subtitle>Oops! We can't find that page.</mat-card-subtitle>
+</mat-card-header>
+
+<mat-card-content>
+  <div class="content-body">
+    <mat-icon class="main-lock-icon">map</mat-icon> <p>
+      It looks like the link you followed might be broken, or the page has been moved. 
+      Try going back to the dashboard to find what you need.
+    </p>
+  </div>
+</mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-button color="primary" (click)="goHome()" class="btn-go-back">
+        <mat-icon>dashboard</mat-icon> BACK TO HOME
+      </button>
+      
+    </mat-card-actions>
+  </mat-card>
+</div>

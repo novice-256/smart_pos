@@ -1,0 +1,5 @@
+.user-icon {
+    width: 120px;
+    display: flex;
+    overflow: hidden;
+}

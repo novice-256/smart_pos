@@ -1,0 +1,18 @@
+@keyframes slideDown {
+  from { max-height: 0%; opacity: 0; }
+  to { max-height: 500px; opacity: 1; } /* pick a value larger than expected */
+}
+
+.visible {
+  overflow: hidden;
+  animation: slideDown 0.3s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+.active{
+  background-color: blue;
+  color: white !important;
+  border-radius: .5rem;
+  padding: .5rem;
+}
+*{
+  transition: .3s ;
+}

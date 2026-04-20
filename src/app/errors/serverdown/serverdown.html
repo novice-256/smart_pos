@@ -1,0 +1,30 @@
+<div class="error-wrapper">
+  <mat-card class="unauthorized-card">
+    <mat-card-header>
+      <div mat-card-avatar class="error-icon-header">
+        <mat-icon color="warn">report_problem</mat-icon>
+      </div>
+      <mat-card-title>403 - Forbidden</mat-card-title>
+      <mat-card-subtitle>Access Denied</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="content-body">
+        <mat-icon class="main-lock-icon">lock_person</mat-icon>
+        <p>
+          You do not have the required permissions to access this resource. 
+          Please contact your administrator if you believe this is a mistake.
+        </p>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-button color="primary" (click)="goHome()">
+        <mat-icon>dashboard</mat-icon> BACK TO HOME
+      </button>
+      <button mat-raised-button color="warn" (click)="logout()">
+        <mat-icon>logout</mat-icon> LOGOUT
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

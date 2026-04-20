@@ -1,0 +1,85 @@
+/src/app
+│
+├── /shared
+│   ├── /components         # Reusable UI components
+│   │   ├── StatusBar/
+│   │   │   ├── status-bar.component.ts        # Inline-template 
+│   │   │ 
+│   │   ├── AppHeader/
+│   │   │   ├── app-header.component.ts
+│   │   │   ├── app-header.component.html
+│   │   │   └── app-header.component.css
+│   │   │
+│   │   ├── PrimaryCTA/
+│   │   │   ├── primary-cta.component.ts
+│   │   │   ├── primary-cta.component.html
+│   │   │
+│   │   ├── QuickActionCard/
+│   │   │   ├── quick-action-card.component.ts
+│   │   │   ├── quick-action-card.component.html
+│   │   │
+│   │   ├── QuickActionsGrid/
+│   │   │   ├── quick-actions-grid.component.ts
+│   │   │   ├── quick-actions-grid.component.html
+│   │   │   └── quick-actions-grid.component.css  # optional
+│   │   │
+│   │   ├── DailySummaryCard/
+│   │   │   ├── daily-summary-card.component.ts
+│   │   │   ├── daily-summary-card.component.html
+│   │   │   └── daily-summary-card.component.css  # optional
+│   │   │
+│   │   ├── SummarySection/
+│   │   │   ├── summary-section.component.ts
+│   │   │   ├── summary-section.component.html
+│   │   │
+│   │   ├── AlertBanner/
+│   │   │   ├── alert-banner.component.ts
+│   │   │   ├── alert-banner.component.html
+│   │   │
+│   │   ├── UtilityShortcut/
+│   │   │   ├── utility-shortcut.component.ts
+│   │   │   ├── utility-shortcut.component.html
+│   │   │
+│   │   ├── UtilitySection/
+│   │   │   ├── utility-section.component.ts
+│   │   │   ├── utility-section.component.html
+│   │   │
+│   │   └── BottomNavBar/
+│   │       ├── bottom-nav-bar.component.ts
+│   │       ├── bottom-nav-bar.component.html
+│   │
+│   └── shared.module.ts   # Exports all shared components for reuse
+│
+├── /core
+│   ├── /services          # Application-wide services
+│   │   ├── connectivity.service.ts  # Handles offline/online status
+│   │   ├── sync.service.ts          # Handles background sync logic
+│   │   └── invoice.service.ts       # API CRUD for invoices
+│   │
+│   └── core.module.ts      # Provides singleton services for app
+│
+├── /features
+│   ├── /home
+│   │   ├── home.component.ts
+│   │   ├── home.component.html
+│   │   └── home.component.css
+│   │
+│   ├── /bills
+│   │   ├── bills.component.ts
+│   │   ├── bills.component.html
+│   │   └── bills.component.css
+│   │
+│   ├── /reports
+│   │   ├── reports.component.ts
+│   │   ├── reports.component.html
+│   │   └── reports.component.css
+│   │
+│   └── /account
+│       ├── account.component.ts
+│       ├── account.component.html
+│       └── account.component.css
+│
+├── app-routing.module.ts   # Routing between feature modules
+├── app.component.ts        # Root component
+├── app.component.html
+└── app.component.css

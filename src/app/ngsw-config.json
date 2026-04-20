@@ -1,0 +1,35 @@
+{
+ 
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "resources": {
+      "files": [
+          "/index.html",
+          "/*.js",
+          "/*.css",
+          "/manifest.webmanifest", 
+          "/*.ico",
+          "/*.png",
+          "/assets/**",
+          "/public/**"
+        ]
+      }
+    },
+    {
+      "name": "assets",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**",
+          "/icons/**",
+          "/i18n/**"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "COMMON": {
+    "APP_NAME": "آسان انوائس",
+    "SAVE": "محفوظ کریں",
+    "CANCEL": "منسوخ کریں",
+    "BACK": "واپس",
+    "LOADING": "لوڈنگ ہو رہی ہے..."
+  },
+  "STATUS": {
+    "ONLINE": "آن لائن",
+    "OFFLINE": "آف لائن",
+    "LAST_SYNC": "آخری ہم آہنگی",
+    "PENDING_SYNC": "{{count}} بل ہم آہنگی کے منتظر ہیں"
+  },
+  "DASHBOARD": {
+    "WELCOME": "خوش آمدید",
+    "TOTAL_BALANCE": "کل بیلنس",
+    "RECENT_INVOICES": "حالیہ انوائسز"
+  },
+"ACTIONS": {
+    "CREATE_BILL": "نیا بل بنائیں",
+    "BILL_LIST": "بلوں کی فہرست",
+    "SYNC_DATA": "ڈیٹا سنک کریں",
+    "GUIDE": "ہدایات",
+    "PROFILE": "پروفائل",
+    "SETTINGS": "سیٹنگز",
+    "SAVE_DATA": "بیک اپ ڈیٹا",
+    "GET_HELP": "مدد چاہیے؟",
+    "GENERATE_QR": "کیو آر کوڈ بنائیں",
+    "SCAN": "اسکین کریں"
+},
+  "INVOICE": {
+    "ID": "انوائس نمبر",
+    "DATE": "تاریخ",
+    "CLIENT": "گاہک",
+    "AMOUNT": "رقم",
+    "STATUS": "حالت"
+  },
+  "NAV": {
+    "HOME": "ڈیش بورڈ",
+    "HISTORY": "تاریخ",
+    "REPORTS": "رپورٹس",
+    "SETTINGS": "سیٹنگز"
+},
+ "TITLE": {
+   "MANAGE_ORDER": "آرڈرز بنائیں اور ان کا انتظام کریں",
+    "INVOICE": "انوائس"
+    
+  }
+}
